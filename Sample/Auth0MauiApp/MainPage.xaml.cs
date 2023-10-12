@@ -1,4 +1,4 @@
-﻿using Auth0.OidcClient;
+using Auth0.OidcClient;
 using Auth0.OidcClient.MAUI;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Browser;
@@ -46,6 +46,7 @@ namespace Auth0MauiApp
             LoginBtn.IsVisible = true;
 
             HelloLabel.Text = $"Hello, World!";
+            ErrorLabel.Text = "";
         }
 
         private void DisplayResult(LoginResult loginResult)
@@ -61,6 +62,7 @@ namespace Auth0MauiApp
 
 
             HelloLabel.Text = $"Hello, {loginResult.User.Identity.Name}";
+            ErrorLabel.Text = "";
         }
     }
 }
