@@ -10,7 +10,9 @@ namespace Auth0MauiApp
         {
             Domain = "",
             ClientId = "",
-            Scope = "openid profile email"
+            Scope = "openid profile email",
+            RedirectUri = "myapp://callback",
+            PostLogoutRedirectUri = "myapp://callback",
         });
 
         public MainPage()
