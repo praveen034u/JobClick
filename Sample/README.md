@@ -33,8 +33,6 @@ The above activity will ensure the application can handle the `myapp://callback`
 
 ### Configuring Windows
 
-To support Windows, our SDK relies on WinUIEx, a community-built package to provide a WebAuthenticator that supports Windows.
-
 To make sure it can properly reactivate your application after being redirected back go Auth0, you need to do two things:
 
 - Add the `myapp` protocol to the `Package.appxmanifest`
@@ -49,11 +47,11 @@ To make sure it can properly reactivate your application after being redirected 
     </Application>
   </Applications>
   ```
-- Call `WinUIEx.WebAuthenticator.CheckOAuthRedirectionActivation()` in the Windows specific App.xaml.cs file
+- Call `Activator.Default.CheckRedirectionActivation()` in the Windows specific App.xaml.cs file
   ```csharp
   public App()
   {
-    if (WinUIEx.WebAuthenticator.CheckOAuthRedirectionActivation())
+    if (Auth0.OidcClient.Platforms.Windows.Activator.Default.CheckRedirectionActivation())
       return;
   
     this.InitializeComponent();
@@ -67,6 +65,8 @@ Auth0Client client = new Auth0Client(new Auth0ClientOptions
 {
     Domain = "",
     ClientId = "",
+    RedirectUri = "myapp://callback",
+    PostLogoutRedirectUri = "myapp://callback",
     Scope = "openid profile email"
 });
 ```
