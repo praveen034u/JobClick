@@ -8,11 +8,11 @@ namespace Auth0MauiApp
     {
         Auth0Client client = new Auth0Client(new Auth0ClientOptions
         {
-            Domain = "",
-            ClientId = "",
+            Domain = "dev-jbrriuc5vyjmiwtx.us.auth0.com",
+            ClientId = "HHkjs4uACOc1O27m3v865SJqbMdAcEfZ",
             Scope = "openid profile email",
-            RedirectUri = "myapp://callback",
-            PostLogoutRedirectUri = "myapp://callback",
+            RedirectUri = "jobclick://callback",
+            PostLogoutRedirectUri = "jobclick://callback",
         });
 
         public MainPage()

@@ -7,10 +7,10 @@ namespace Auth0MauiApp
     [Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop, Exported = true)]
     [IntentFilter(new[] { Intent.ActionView },
                   Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-                  DataScheme = CALLBACK_SCHEME)]
+                  DataScheme = "jobclick",  DataHost = "callback")]  
     public class WebAuthenticatorActivity : Microsoft.Maui.Authentication.WebAuthenticatorCallbackActivity
     {
-        const string CALLBACK_SCHEME = "myapp";
+        const string CALLBACK_SCHEME = "jobclick";
     }
 
 }
