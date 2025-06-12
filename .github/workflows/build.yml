@@ -34,18 +34,18 @@ jobs:
       run: dotnet restore JobClick.csproj -f net9.0-android35.0
 
     - name: Build Android AAB
-      working-directory: JobClick
+      working-directory: JobClick  # If your csproj is inside a folder
       run: |
-        dotnet publish JobClick.csproj \
-          -f net9.0-android35.0 \
-          -c Release \
-          -o ../publish \
-          /p:AndroidKeyStore=true \
-          /p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
-          /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
-          /p:AndroidSigningKeyPass=${{ secrets.KEY_PASS }} \
-          /p:AndroidSigningStorePass=${{ secrets.STORE_PASS }} \
-          /p:AndroidPackageFormat=aab
+       dotnet publish JobClick.csproj \
+       -f net9.0-android35.0 \
+       -c Release \
+       -o ../publish \
+       /p:AndroidKeyStore=true \
+       /p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
+       /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
+       /p:AndroidSigningKeyPass=${{ secrets.KEY_PASS }} \
+       /p:AndroidSigningStorePass=${{ secrets.STORE_PASS }} \
+       /p:AndroidPackageFormat=aab
 
     - name: Upload to Google Play
       uses: r0adkll/upload-google-play@v1
