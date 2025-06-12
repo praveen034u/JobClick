@@ -22,7 +22,7 @@ jobs:
         dotnet-version: '9.0.x'
 
     - name: Install MAUI Android Workload
-      run: dotnet workload install maui-android --source https://api.nuget.org/v3/index.json
+      run: dotnet workload install maui-android
 
     - name: Decode keystore
       run: |
@@ -30,18 +30,22 @@ jobs:
         echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > $HOME/.keystore/jobclick.keystore
 
     - name: Restore dependencies
-      run: dotnet workload restore
+      working-directory: JobClick
+      run: dotnet restore JobClick.csproj -f net9.0-android35.0
 
     - name: Build Android AAB
       working-directory: JobClick
-      run: dotnet publish JobClick.csproj -c Release -o publish \
-        -f net9.0-android \
-        /p:AndroidKeyStore=true \
-        /p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
-        /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
-        /p:AndroidSigningKeyPass=${{ secrets.KEY_PASS }} \
-        /p:AndroidSigningStorePass=${{ secrets.STORE_PASS }} \
-        /p:AndroidPackageFormat=aab
+      run: |
+        dotnet publish JobClick.csproj \
+          -f net9.0-android35.0 \
+          -c Release \
+          -o ../publish \
+          /p:AndroidKeyStore=true \
+          /p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
+          /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
+          /p:AndroidSigningKeyPass=${{ secrets.KEY_PASS }} \
+          /p:AndroidSigningStorePass=${{ secrets.STORE_PASS }} \
+          /p:AndroidPackageFormat=aab
 
     - name: Upload to Google Play
       uses: r0adkll/upload-google-play@v1
