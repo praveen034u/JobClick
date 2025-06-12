@@ -2,7 +2,7 @@
 using Android.Content.PM;
 using Android.Content;
 
-namespace Auth0MauiApp
+namespace JobClick
 {
     [Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop, Exported = true)]
     [IntentFilter(new[] { Intent.ActionView },

@@ -2,7 +2,7 @@ using Auth0.OidcClient;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Browser;
 
-namespace Auth0MauiApp
+namespace JobClick
 {
     public partial class MainPage : ContentPage
     {
