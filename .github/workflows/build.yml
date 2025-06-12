@@ -1,43 +1,48 @@
-name: Build .NET MAUI Android (.aab)
+name: Build and Deploy JobClick to Google Play
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      track:
+        description: 'Play Store track to deploy (internal, alpha, beta, production)'
+        required: true
+        default: 'internal'
 
 jobs:
-  build-android:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Decode keystore
+      run: |
+        mkdir -p $HOME/.keystore
+        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > $HOME/.keystore/jobclick.keystore
 
-      - name: Decrypt keystore
-        run: |
-          mkdir -p $HOME/.keystore
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > $HOME/.keystore/myapp.keystore
+    - name: Restore dependencies
+      run: dotnet restore
 
-      - name: Build Android AAB
-        run: dotnet publish YourApp.csproj -f net8.0-android -c Release -o publish \
-          /p:AndroidKeyStore=true \
-          /p:AndroidSigningKeyStore=$HOME/.keystore/myapp.keystore \
-          /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
-          /p:AndroidSigningKeyPass=${{ secrets.KEY_PASS }} \
-          /p:AndroidSigningStorePass=${{ secrets.STORE_PASS }} \
-          /p:AndroidPackageFormat=aab
+    - name: Build Android AAB
+      run: dotnet publish JobClick.csproj -f net8.0-android -c Release -o publish \
+        /p:AndroidKeyStore=true \
+        /p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
+        /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
+        /p:AndroidSigningKeyPass=${{ secrets.KEY_PASS }} \
+        /p:AndroidSigningStorePass=${{ secrets.STORE_PASS }} \
+        /p:AndroidPackageFormat=aab
 
-      - name: Upload AAB artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-bundle
-          path: publish/*.aab
+    - name: Upload to Google Play
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_KEY_JSON }}
+        packageName: com.jobclick.app
+        releaseFiles: publish/*.aab
+        track: ${{ github.event.inputs.track }}
+        status: draft
