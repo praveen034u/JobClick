@@ -31,7 +31,7 @@ jobs:
 
     - name: Restore dependencies
       working-directory: JobClick
-      run: dotnet restore JobClick.csproj net9.0-android35.0
+      run: dotnet restore JobClick.csproj
 
     - name: Build Android AAB
       working-directory: JobClick
