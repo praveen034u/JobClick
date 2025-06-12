@@ -33,7 +33,8 @@ jobs:
       run: dotnet workload restore
 
     - name: Build Android AAB
-      run: dotnet publish JobClick.csproj -f net9.0-android -c Release -o publish \
+      run: |  
+        dotnet publish JobClick.csproj -f net9.0-android -c Release -o publish \
         /p:AndroidKeyStore=true \
         /p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
         /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
