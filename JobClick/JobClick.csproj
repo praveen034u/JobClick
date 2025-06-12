@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-    <TargetFrameworks>net9.0-android35.0;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net9.0-android35.0;net9.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>JobClick</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -71,6 +71,7 @@
 		<PackageReference Include="IdentityModel.OidcClient" Version="5.2.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Auth0.OidcClient.MAUI" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.51" />
 	</ItemGroup>
 
 </Project>
