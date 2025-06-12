@@ -30,6 +30,18 @@
 		<DefaultLanguage>en</DefaultLanguage> 
 	</PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Use .aab format for Play Store -->
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+
+    <!-- Enable keystore signing -->
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>jobclick.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias>jobclick</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>your_key_password</AndroidSigningKeyPass>
+    <AndroidSigningStorePass>your_keystore_password</AndroidSigningStorePass>
+  </PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
 	</PropertyGroup>
