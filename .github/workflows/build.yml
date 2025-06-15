@@ -31,7 +31,7 @@ jobs:
 
     - name: Restore dependencies
       working-directory: JobClick
-      run: dotnet restore JobClick.csproj
+      run: dotnet restore JobClick.csproj -f net9.0-android35.0
 
     - name: Build Android AAB
       working-directory: JobClick
@@ -39,19 +39,17 @@ jobs:
         dotnet publish JobClick.csproj \
           -f net9.0-android35.0 \
           -c Release \
-          -o ../publish \
-          /p:AndroidKeyStore=true \
-          /p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
-          /p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
-          /p:AndroidSigningKeyPass=${{ secrets.KEY_PASS }} \
-          /p:AndroidSigningStorePass=${{ secrets.STORE_PASS }} \
-          /p:AndroidPackageFormat=aab
+          -p:AndroidKeyStore=true \
+          -p:AndroidSigningKeyAlias=${{ secrets.KEY_ALIAS }} \
+          -p:AndroidSigningKeyPass=${{ secrets.KEY_PASSWORD }} \
+          -p:AndroidSigningStorePass=${{ secrets.KEYSTORE_PASSWORD }} \
+          -p:AndroidSigningKeyStore=$HOME/.keystore/jobclick.keystore \
+          -o ./output
 
-    - name: Upload to Google Play
+    - name: Upload to Play Store
       uses: r0adkll/upload-google-play@v1
       with:
-        serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_KEY_JSON }}
+        serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON }}
         packageName: com.jobclick.app
-        releaseFiles: publish/*.aab
+        releaseFiles: JobClick/output/*.aab
         track: ${{ github.event.inputs.track }}
-        status: draft
