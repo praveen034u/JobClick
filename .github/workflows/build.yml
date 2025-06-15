@@ -52,6 +52,6 @@ jobs:
       with:
         serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_KEY_JSON }}
         packageName: com.jobclick.app
-        releaseFiles: JobClick/output/*.aab
+        releaseFiles: publish/*.aab
         track: ${{ github.event.inputs.track }}
         status: draft
